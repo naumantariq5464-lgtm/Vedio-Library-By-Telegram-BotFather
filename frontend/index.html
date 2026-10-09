@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VideoVault - Premium Video Library</title>
+  <meta name="description" content="Stream premium videos in stunning quality. VideoVault your private high-performance video library." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- NAVBAR - No Admin button visible -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="#" class="nav-logo" id="nav-logo-btn">
+        <span class="logo-icon">&#9654;</span>
+        <span class="logo-text">VideoVault</span>
+      </a>
+      <div class="nav-actions">
+        <a href="#videos-section" class="nav-link" id="nav-videos-link">Video Library</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- PUBLIC LIBRARY PAGE -->
+  <div id="page-library" class="page active">
+    <section class="hero">
+      <div class="hero-bg-glow"></div>
+      <div class="hero-content">
+        <div class="hero-badge">Premium Collection</div>
+        <h1 class="hero-title">Stream Without<br /><span class="gradient-text">Limits</span></h1>
+        <p class="hero-subtitle">High-quality videos, stored securely and streamed instantly.</p>
+        <div class="hero-stats">
+          <div class="stat"><span class="stat-num" id="stat-count">0</span><span class="stat-label">Videos</span></div>
+          <div class="stat-divider"></div>
+          <div class="stat"><span class="stat-num">HD</span><span class="stat-label">Quality</span></div>
+          <div class="stat-divider"></div>
+          <div class="stat"><span class="stat-num">&#8734;</span><span class="stat-label">Streaming</span></div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-orb">
+          <div class="hero-orb-ring hero-orb-ring-1"></div>
+          <div class="hero-orb-ring hero-orb-ring-2"></div>
+          <div class="hero-orb-ring hero-orb-ring-3"></div>
+          <div class="hero-orb-center">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="36" height="36"><path d="M8 5v14l11-7z"/></svg>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="search-section" id="videos-section">
+      <div class="container">
+        <div class="search-wrapper">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          <input type="text" id="search-input" class="search-input" placeholder="Search videos..." autocomplete="off" />
+          <button class="search-clear" id="search-clear" style="display:none">&#10005;</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="library-section">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">All Videos</h2>
+          <span class="video-count-badge" id="video-count-badge">Loading...</span>
+        </div>
+        <div class="loading-grid" id="loading-grid">
+          <div class="skeleton-card"></div><div class="skeleton-card"></div><div class="skeleton-card"></div>
+          <div class="skeleton-card"></div><div class="skeleton-card"></div><div class="skeleton-card"></div>
+        </div>
+        <div class="video-grid" id="video-grid" style="display:none"></div>
+        <div class="empty-state" id="empty-state" style="display:none">
+          <div class="empty-icon">&#127917;</div>
+          <h3>No Videos Yet</h3>
+          <p>Videos will appear here once uploaded.</p>
+        </div>
+        <div class="empty-state" id="no-results-state" style="display:none">
+          <div class="empty-icon">&#128269;</div>
+          <h3>No Results Found</h3>
+          <p>Try a different search term.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER with hidden admin trigger on copyright text -->
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-inner">
+          <div class="footer-left">
+            <div class="footer-logo">
+              <span class="logo-icon small">&#9654;</span>
+              <span class="logo-text">VideoVault</span>
+            </div>
+            <p class="footer-tagline">Stream without limits.</p>
+          </div>
+          <div class="footer-right">
+            <p class="footer-copy">
+              <span class="footer-admin-trigger" id="footer-admin-trigger">&copy; 2024 VideoVault. All rights reserved.</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- VIDEO PLAYER PAGE -->
+  <div id="page-player" class="page">
+    <div class="player-back-bar">
+      <button class="btn-back" id="back-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="18" height="18"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+        Back to Library
+      </button>
+    </div>
+    <div class="player-layout">
+      <div class="player-main">
+        <div class="video-player-wrapper">
+          <video id="main-video" class="video-player" controls preload="metadata" playsinline>Your browser does not support video.</video>
+        </div>
+        <div class="player-info">
+          <h1 class="player-title" id="player-title">Loading...</h1>
+          <div class="player-meta">
+            <span class="meta-badge">HD</span>
+            <span class="player-size" id="player-size"></span>
+            <span class="player-date" id="player-date"></span>
+          </div>
+        </div>
+
+        <!-- ── AI CHAT PANEL ─────────────────────────────────── -->
+        <div class="ai-chat-panel" id="ai-chat-panel">
+          <div class="ai-chat-header">
+            <div class="ai-chat-header-left">
+              <div class="ai-chat-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 0 1 10 10c0 5.52-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2"/><path d="M12 8v4l3 3"/></svg>
+              </div>
+              <div>
+                <span class="ai-chat-title">Ask AI About This Video</span>
+                <span class="ai-chat-subtitle">Powered by Gemini</span>
+              </div>
+            </div>
+            <button class="ai-chat-toggle" id="ai-chat-toggle" title="Collapse">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 15l-6-6-6 6"/></svg>
+            </button>
+          </div>
+
+          <div class="ai-chat-body" id="ai-chat-body">
+            <!-- Quick suggestion chips -->
+            <div class="ai-chat-chips" id="ai-chat-chips">
+              <button class="ai-chip" data-q="Give me a short summary of this video.">📝 Summary</button>
+              <button class="ai-chip" data-q="What are the key moments or highlights in this video?">🎯 Key Moments</button>
+              <button class="ai-chip" data-q="What topic or subject does this video cover?">🔍 Topic</button>
+              <button class="ai-chip" data-q="Are there any important timestamps I should know about?">⏱ Timestamps</button>
+            </div>
+
+            <!-- Chat messages -->
+            <div class="ai-chat-messages" id="ai-chat-messages">
+              <div class="ai-chat-welcome">
+                <div class="ai-welcome-icon">🤖</div>
+                <p>Hello! I've watched this video and I'm ready to answer your questions. Ask me anything about what's happening in the video!</p>
+              </div>
+            </div>
+
+            <!-- Input row -->
+            <div class="ai-chat-input-row">
+              <input
+                type="text"
+                id="ai-chat-input"
+                class="ai-chat-input"
+                placeholder="Ask a question about this video..."
+                autocomplete="off"
+                maxlength="500"
+              />
+              <button class="ai-chat-send" id="ai-chat-send" title="Send">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M2 21l21-9L2 3v7l15 2-15 2v7z"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- ── END AI CHAT PANEL ─────────────────────────────── -->
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ADMIN PAGE -->
+  <div id="page-admin" class="page">
+    <div id="admin-login-panel" class="admin-center-panel">
+      <div class="admin-login-card">
+        <div class="admin-logo">
+          <span class="logo-icon">&#9654;</span>
+          <span class="logo-text">VideoVault</span>
+        </div>
+        <h2 class="admin-login-title">Admin Portal</h2>
+        <p class="admin-login-sub">Sign in to manage your video library</p>
+        <div class="alert" id="login-alert" style="display:none"></div>
+        <form id="login-form" class="login-form" novalidate>
+          <div class="form-group">
+            <label class="form-label" for="login-email">Email Address</label>
+            <input type="email" id="login-email" class="form-input" placeholder="admin@example.com" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="login-password">Password</label>
+            <div class="input-password-wrapper">
+              <input type="password" id="login-password" class="form-input" placeholder="Password" required />
+              <button type="button" class="toggle-password" id="toggle-pwd">&#128065;</button>
+            </div>
+          </div>
+          <button type="submit" class="btn-primary btn-full" id="login-btn">
+            <span id="login-btn-text">Sign In</span>
+            <span id="login-spinner" class="spinner" style="display:none"></span>
+          </button>
+        </form>
+        <div class="admin-back-link">
+          <button class="footer-link-btn" id="admin-back-home">&#8592; Back to Library</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="admin-dashboard" style="display:none">
+      <div class="dashboard-topbar">
+        <div class="container">
+          <div class="dashboard-topbar-inner">
+            <div class="dashboard-title-group">
+              <span class="logo-icon small">&#9654;</span>
+              <span class="dashboard-label">Admin Dashboard</span>
+            </div>
+            <div class="dashboard-topbar-actions">
+              <button class="btn-ghost small" id="dash-home-btn">&#127968; Home</button>
+              <button class="btn-logout" id="logout-btn">Logout</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="container dashboard-body">
+        <div class="stats-row">
+          <div class="stat-card"><div class="stat-card-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M18 4l2 4h-3l-2-4h-2l2 4h-3l-2-4H8l2 4H7L5 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4h-4z"/></svg></div><div class="stat-card-info"><span class="stat-card-num" id="admin-video-count">0</span><span class="stat-card-label">Total Videos</span></div></div>
+          <div class="stat-card"><div class="stat-card-icon">&#128190;</div><div class="stat-card-info"><span class="stat-card-num" id="admin-total-size">0 MB</span><span class="stat-card-label">Storage Used</span></div></div>
+          <div class="stat-card"><div class="stat-card-icon">&#128225;</div><div class="stat-card-info"><span class="stat-card-num" style="color:#22c55e">Live</span><span class="stat-card-label">Telegram Connected</span></div></div>
+        </div>
+
+        <div class="upload-section">
+          <h2 class="section-title">Upload New Video</h2>
+          <div class="alert" id="upload-alert" style="display:none"></div>
+          <form id="upload-form" class="upload-form" novalidate>
+            <div class="form-group">
+              <label class="form-label" for="video-title">Video Title</label>
+              <input type="text" id="video-title" class="form-input" placeholder="Enter video title..." required maxlength="200" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Video File</label>
+              <div class="file-drop-zone" id="file-drop-zone">
+                <input type="file" id="video-file" accept="video/*" class="file-input-hidden" />
+                <div class="file-drop-content" id="file-drop-content">
+                  <div class="file-drop-icon">&#128193;</div>
+                  <p class="file-drop-title">Drop your video here</p>
+                  <p class="file-drop-sub">or <span class="file-drop-link">click to browse</span></p>
+                  <p class="file-drop-info">MP4, MOV, AVI supported</p>
+                </div>
+                <div class="file-selected-info" id="file-selected-info" style="display:none">
+                  <div class="file-icon-large"><svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M18 4l2 4h-3l-2-4h-2l2 4h-3l-2-4H8l2 4H7L5 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4h-4z"/></svg></div>
+                  <div class="file-details">
+                    <p class="file-name" id="file-name-display"></p>
+                    <p class="file-size-text" id="file-size-display"></p>
+                  </div>
+                  <button type="button" class="remove-file-btn" id="remove-file-btn">&#10005;</button>
+                </div>
+              </div>
+            </div>
+            <div class="upload-progress-wrapper" id="upload-progress-wrapper" style="display:none">
+              <div class="upload-progress-bar-bg">
+                <div class="upload-progress-bar" id="upload-progress-bar"></div>
+              </div>
+              <p class="upload-progress-label" id="upload-progress-label">Uploading to Telegram...</p>
+            </div>
+            <button type="submit" class="btn-primary" id="upload-btn" disabled>
+              <span id="upload-btn-text">Upload Video</span>
+              <span id="upload-spinner" class="spinner" style="display:none"></span>
+            </button>
+          </form>
+        </div>
+
+        <div class="manage-section">
+          <div class="section-header">
+            <h2 class="section-title">Manage Videos</h2>
+            <button class="btn-ghost small" id="refresh-videos-btn">&#8635; Refresh</button>
+          </div>
+          <div class="admin-loading" id="admin-loading">Loading videos...</div>
+          <div class="video-table-wrapper" id="video-table-wrapper" style="display:none">
+            <table class="video-table">
+              <thead><tr><th>ID</th><th>Title</th><th>Size</th><th>Uploaded</th><th>Actions</th></tr></thead>
+              <tbody id="video-table-body"></tbody>
+            </table>
+          </div>
+          <div class="empty-state small" id="admin-empty-state" style="display:none">
+            <div class="empty-icon">&#128237;</div>
+            <h3>No Videos Uploaded</h3>
+            <p>Upload your first video above!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DELETE MODAL -->
+  <div class="modal-overlay" id="delete-modal" style="display:none">
+    <div class="modal-card">
+      <div class="modal-icon">&#128465;</div>
+      <h3 class="modal-title">Delete Video?</h3>
+      <p class="modal-body" id="modal-body-text">This will permanently delete the video. Cannot be undone.</p>
+      <div class="modal-actions">
+        <button class="btn-ghost" id="modal-cancel-btn">Cancel</button>
+        <button class="btn-danger" id="modal-confirm-btn">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+  <script src="app.js"></script>
+</body>
+</html>
